@@ -19,7 +19,7 @@ public class UseProcessor {
 				memory = new Memory(line);
 				processor = new Microprocessor(memory);
 
-				for (String m : memory.getMemory()) {
+				for (char m : memory.getMemory()) {
 					System.out.print(m);
 				}
 				System.out.println("\n");

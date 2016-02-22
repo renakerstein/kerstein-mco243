@@ -2,17 +2,17 @@ package microprocessorSimulation;
 
 public class Memory {
 
-	private String[] memory;
+	private char[] memory;
 
 	public Memory(String memoryStr) {
-		memory = memoryStr.split("");
+		memory = memoryStr.toCharArray();
 	}
 
-	public String[] getMemory() {
+	public char[] getMemory() {
 		return memory;
 	}
 
-	public void setMemory(String[] memory) {
+	public void setMemory(char[] memory) {
 		this.memory = memory;
 	}
 
