@@ -6,8 +6,6 @@ public class Microprocessor {
 	private char accumulatorA;
 	private char accumulatorB;
 	private int counter;
-	private int address1;
-	private int address2;
 	private int location;
 	private StringBuilder builder;
 	private int num = 0;
@@ -65,10 +63,6 @@ public class Microprocessor {
 
 	private void load() {
 		builder = new StringBuilder();
-		// address1 = Integer.parseInt(String.valueOf(memory[position + 1]), 16)
-		// * 16;
-		// address2 = Integer.parseInt(String.valueOf(memory[position + 2]),
-		// 16);
 		builder.append(memory[counter + 1]);
 		builder.append(memory[counter + 2]);
 		location = Integer.parseInt(builder.toString(), 16);
@@ -80,9 +74,6 @@ public class Microprocessor {
 		builder = new StringBuilder();
 		builder.append(memory[counter + 1]);
 		builder.append(memory[counter + 2]);
-		// address1 = Integer.parseInt(String.valueOf(memory[counter+ 1]), 16) *
-		// 16;
-		// address2 = Integer.parseInt(String.valueOf(memory[counter+ 2]), 16);
 		location = Integer.parseInt(builder.toString(), 16);
 		memory[location] = accumulatorA;
 		counter += 2;
@@ -100,13 +91,13 @@ public class Microprocessor {
 		int decimalB = Integer.parseInt(String.valueOf(accumulatorB), 16);
 		int total = decimalA + decimalB;
 		// convert to hex
-		String sTotal = Integer.toHexString(total).toUpperCase();
-		if (sTotal.length() == 2) {
-			accumulatorB = sTotal.charAt(0);
-			accumulatorA = sTotal.charAt(1);
+		String hex = Integer.toString(total, 16).toUpperCase();
+		if (hex.length() == 2) {
+			accumulatorB = hex.charAt(0);
+			accumulatorA = hex.charAt(1);
 		} else {
 			accumulatorB = '0';
-			accumulatorA = sTotal.charAt(0);
+			accumulatorA = hex.charAt(0);
 		}
 	}
 
@@ -114,10 +105,10 @@ public class Microprocessor {
 		if (accumulatorA == 'F') {
 			accumulatorA = '0';
 		} else {
-			int dec = Integer.parseInt(String.valueOf(accumulatorA), 16);
-			dec++;
-			String hex = Integer.toHexString(dec).toUpperCase();
-			accumulatorA = hex.charAt(0);
+			int dec1 = Integer.parseInt(String.valueOf(accumulatorA), 16);
+			dec1++;
+			String hex1 = Integer.toString(dec1, 16).toUpperCase();
+			accumulatorA = hex1.charAt(0);
 		}
 
 	}
@@ -126,11 +117,10 @@ public class Microprocessor {
 		if (accumulatorA == '0') {
 			accumulatorA = 'F';
 		} else {
-			int dec = Integer.parseInt(String.valueOf(accumulatorA), 16);
-			dec--;
-			String hex = Integer.toHexString(dec).toUpperCase();
+			int dec2 = Integer.parseInt(String.valueOf(accumulatorA), 16);
+			dec2--;
+			String hex = Integer.toHexString(dec2).toUpperCase();
 			accumulatorA = hex.charAt(0);
-			System.out.println("decremented " + accumulatorA);
 		}
 
 	}
@@ -141,12 +131,6 @@ public class Microprocessor {
 			builder = new StringBuilder();
 			builder.append(memory[counter + 1]);
 			builder.append(memory[counter + 2]);
-			/*
-			 * address1 = Integer.parseInt(String.valueOf(memory[counter+ 1]),
-			 * 16) * 16; address2 =
-			 * Integer.parseInt(String.valueOf(memory[counter + 2]), 16);
-			 * location = address1 + address2;*
-			 */
 			location = Integer.parseInt(builder.toString(), 16);
 			counter = location;
 		} else {
@@ -155,24 +139,21 @@ public class Microprocessor {
 	}
 
 	private void br() {
-		/*
-		 * address1 = Integer.parseInt(String.valueOf(memory[position + 1]), 16)
-		 * * 16; address2 = Integer.parseInt(String.valueOf(memory[position +
-		 * 2]), 16); location = address1 + address2; counter = location;*
-		 */
-		int counter = 0;
-		for (char m : memory) {
-			if (counter < 16) {
-				System.out.print(m);
-
-				counter++;
-			}
-		}
 		builder = new StringBuilder();
 		builder.append(memory[counter + 1]);
 		builder.append(memory[counter + 2]);
 		location = Integer.parseInt(builder.toString(), 16);
 		counter = location;
+
+		/*
+		 * if (counter < 16) { for (char m : memory) {
+		 * 
+		 * System.out.print(m);
+		 * 
+		 * num++;
+		 * 
+		 * } }*
+		 */
 	}
 
 }
