@@ -106,7 +106,7 @@ public class Microprocessor {
 	}
 
 	private void increment() {
-		if (accumulatorA == "F") {
+		if (accumulatorA.equals("F")) {
 			accumulatorA = "0";
 		} else {
 			int dec = Integer.parseInt(accumulatorA, 16);
@@ -118,7 +118,7 @@ public class Microprocessor {
 	}
 
 	private void decrement() {
-		if (accumulatorA == "0") {
+		if (accumulatorA.equals("0")) {
 			accumulatorA = "F";
 		} else {
 			int dec = Integer.parseInt(String.valueOf(accumulatorA), 16);
@@ -131,7 +131,7 @@ public class Microprocessor {
 
 	private void bz() {
 
-		if (accumulatorA == "0") {
+		if (accumulatorA.equals("0")) {
 			position = counter;
 			address1 = Integer.parseInt(memory[position + 1], 16) * 16;
 			address2 = Integer.parseInt(memory[position + 2], 16);
