@@ -7,11 +7,13 @@ public class Microprocessor {
 	private char accumulatorB;
 	private int counter;
 	private int location;
+	private StringBuilder builder;
 
 	public Microprocessor(Memory m) {
 		this.accumulatorA = '0';
 		this.accumulatorB = '0';
 		this.counter = 0;
+		this.builder = new StringBuilder();
 		this.memory = m.getMemory();
 		processMemory();
 	}
@@ -134,7 +136,7 @@ public class Microprocessor {
 	}
 
 	private int convertToDecimal() {
-		StringBuilder builder = new StringBuilder();
+		builder.setLength(0);
 		builder.append(memory[counter + 1]);
 		builder.append(memory[counter + 2]);
 		location = Integer.parseInt(builder.toString(), 16);
