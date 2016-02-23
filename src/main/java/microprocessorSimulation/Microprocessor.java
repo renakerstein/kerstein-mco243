@@ -7,8 +7,6 @@ public class Microprocessor {
 	private char accumulatorB;
 	private int counter;
 	private int location;
-	private StringBuilder builder;
-	private int num = 0;
 
 	public Microprocessor(Memory m) {
 		this.accumulatorA = '0';
@@ -16,7 +14,6 @@ public class Microprocessor {
 		this.counter = 0;
 		this.memory = m.getMemory();
 		processMemory();
-
 	}
 
 	public void processMemory() {
@@ -54,35 +51,28 @@ public class Microprocessor {
 				break;
 			case '8':
 				return;
-			}// close switch
-			counter++;
-
-		}// close while
+			}
+		}
 
 	}
 
 	private void load() {
-		builder = new StringBuilder();
-		builder.append(memory[counter + 1]);
-		builder.append(memory[counter + 2]);
-		location = Integer.parseInt(builder.toString(), 16);
+		location = convertToDecimal();
 		accumulatorA = memory[location];
-		counter += 2;
+		counter += 3;
 	}
 
 	private void store() {
-		builder = new StringBuilder();
-		builder.append(memory[counter + 1]);
-		builder.append(memory[counter + 2]);
-		location = Integer.parseInt(builder.toString(), 16);
+		location = convertToDecimal();
 		memory[location] = accumulatorA;
-		counter += 2;
+		counter += 3;
 	}
 
 	private void swap() {
 		char temp = accumulatorA;
 		accumulatorA = accumulatorB;
 		accumulatorB = temp;
+		counter++;
 	}
 
 	private void add() {
@@ -99,6 +89,7 @@ public class Microprocessor {
 			accumulatorB = '0';
 			accumulatorA = hex.charAt(0);
 		}
+		counter++;
 	}
 
 	private void increment() {
@@ -110,7 +101,7 @@ public class Microprocessor {
 			String hex1 = Integer.toString(dec1, 16).toUpperCase();
 			accumulatorA = hex1.charAt(0);
 		}
-
+		counter++;
 	}
 
 	private void decrement() {
@@ -119,41 +110,35 @@ public class Microprocessor {
 		} else {
 			int dec2 = Integer.parseInt(String.valueOf(accumulatorA), 16);
 			dec2--;
-			String hex = Integer.toHexString(dec2).toUpperCase();
-			accumulatorA = hex.charAt(0);
+			String hex2 = Integer.toString(dec2, 16).toUpperCase();
+			accumulatorA = hex2.charAt(0);
 		}
+		counter++;
 
 	}
 
 	private void bz() {
-
 		if (accumulatorA == '0') {
-			builder = new StringBuilder();
-			builder.append(memory[counter + 1]);
-			builder.append(memory[counter + 2]);
-			location = Integer.parseInt(builder.toString(), 16);
+			location = convertToDecimal();
 			counter = location;
+
 		} else {
-			counter += 2;
+			counter += 3;
 		}
 	}
 
 	private void br() {
-		builder = new StringBuilder();
+		location = convertToDecimal();
+		counter = location;
+
+	}
+
+	private int convertToDecimal() {
+		StringBuilder builder = new StringBuilder();
 		builder.append(memory[counter + 1]);
 		builder.append(memory[counter + 2]);
 		location = Integer.parseInt(builder.toString(), 16);
-		counter = location;
-
-		/*
-		 * if (counter < 16) { for (char m : memory) {
-		 * 
-		 * System.out.print(m);
-		 * 
-		 * num++;
-		 * 
-		 * } }*
-		 */
+		return location;
 	}
 
 }

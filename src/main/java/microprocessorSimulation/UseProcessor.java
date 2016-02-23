@@ -14,6 +14,7 @@ public class UseProcessor {
 		try {
 			BufferedReader reader = new BufferedReader(
 					new FileReader("mach.in"));
+
 			String line;
 			while ((line = reader.readLine()) != null) {
 				memory = new Memory(line);
