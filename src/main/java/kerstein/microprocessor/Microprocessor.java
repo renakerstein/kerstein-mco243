@@ -1,4 +1,4 @@
-package microprocessorSimulation;
+package kerstein.microprocessor;
 
 public class Microprocessor {
 
