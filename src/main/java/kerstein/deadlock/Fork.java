@@ -3,7 +3,10 @@ package kerstein.deadlock;
 public class Fork {
 
 	private int number;
+	private boolean inUse;
 	
+	
+
 	public Fork(int number){
 		this.number=number;
 	}
@@ -13,5 +16,11 @@ public class Fork {
 		return "Fork [number=" + number + "]";
 	}
 	
-	
+	public boolean isInUse() {
+		return inUse;
+	}
+
+	public void setInUse(boolean inUse) {
+		this.inUse = inUse;
+	}
 }
