@@ -5,13 +5,17 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
 
-public class JobScheduler extends Scheduler {
+public class ShortestProcessFirstScheduler extends Scheduler {
 
+	/*
+	 * The scheduler selects the waiting process with the smallest estimated
+	 * run-time-to-completion
+	 */
 	private Comparator<Job> comparator;
 
-	public JobScheduler(List<Job> jobs, Comparator<Job> comparator) {
+	public ShortestProcessFirstScheduler(List<Job> jobs,
+			Comparator<Job> comparator) {
 		super(jobs);
 		this.comparator = comparator;
 	}
@@ -31,7 +35,6 @@ public class JobScheduler extends Scheduler {
 				lastJob = job;
 			}
 		}
-
 	}
 
 	public static void main(String[] args) {
@@ -46,8 +49,8 @@ public class JobScheduler extends Scheduler {
 				600, 5L), new Job("9", Priority.High, JobType.Computation, 700,
 				6L), new Job("10", Priority.Low, JobType.IO, 200, 3L));
 
-		JobScheduler scheduler = new JobScheduler(new ArrayList<Job>(jobs),
-				new PriorityComparator());
+		ShortestProcessFirstScheduler scheduler = new ShortestProcessFirstScheduler(
+				new ArrayList<Job>(jobs), new TimeLeftToRunComparator());
 
 		scheduler.run();
 

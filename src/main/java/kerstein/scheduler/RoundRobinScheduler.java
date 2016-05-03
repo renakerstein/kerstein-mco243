@@ -7,28 +7,29 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
-public class JobScheduler extends Scheduler {
+/*
+ processes are dispatched FIFO but are given a limited amount of processor time (time slice/quantum)
+ */
 
-	private Comparator<Job> comparator;
+public class RoundRobinScheduler extends Scheduler {
 
-	public JobScheduler(List<Job> jobs, Comparator<Job> comparator) {
+	public RoundRobinScheduler(List<Job> jobs) {
 		super(jobs);
-		this.comparator = comparator;
 	}
 
 	@Override
 	public void run() {
-		Job lastJob = null;
-		while (!jobs.isEmpty()) {
-			Collections.sort(jobs, comparator);
-			Job job = jobs.get(0);
-			int actualTimeSlice = executeJob(job);
 
+		while (!jobs.isEmpty()) {
+			Job job = jobs.remove(0);
+			int actualTimeSlice = executeJob(job);
 			totalTime += actualTimeSlice;
 
-			if (job != lastJob) {
-				totalTime += OVERHEAD;
-				lastJob = job;
+			if (!job.isFinished()) {
+				// if the process is not finished before its quantum time
+				// expires
+				// it is put back on to the queue
+				jobs.add(job);
 			}
 		}
 
@@ -46,8 +47,8 @@ public class JobScheduler extends Scheduler {
 				600, 5L), new Job("9", Priority.High, JobType.Computation, 700,
 				6L), new Job("10", Priority.Low, JobType.IO, 200, 3L));
 
-		JobScheduler scheduler = new JobScheduler(new ArrayList<Job>(jobs),
-				new PriorityComparator());
+		RoundRobinScheduler scheduler = new RoundRobinScheduler(
+				new ArrayList<Job>(jobs));
 
 		scheduler.run();
 

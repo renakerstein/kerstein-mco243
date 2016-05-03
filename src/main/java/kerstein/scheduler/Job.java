@@ -1,6 +1,6 @@
 package kerstein.scheduler;
 
-public class Job {
+public class Job implements Comparable{
 
 	private Priority priority;
 	private Priority dynamicPriority;
@@ -8,14 +8,24 @@ public class Job {
 	private Long lastRanAtTime;
 	private String name;
 	private JobType type;
+	private Long deadLine;
 
 	private JobState state;
 
-	public Job(String name, Priority priority, JobType type, int timeLeftToRun) {
+	public Job(String name, Priority priority, JobType type, int timeLeftToRun, Long deadLine) {
 		this.priority = priority;
 		this.name = name;
 		this.timeLeftToRun = timeLeftToRun;
 		this.type=type;
+		this.deadLine=deadLine;
+	}
+
+	public Long getDeadLine() {
+		return deadLine;
+	}
+
+	public void setDeadLine(Long deadLine) {
+		this.deadLine = deadLine;
 	}
 
 	public Priority getPriority() {
@@ -80,6 +90,11 @@ public class Job {
 
 	public boolean isFinished() {
 		return timeLeftToRun <= 0;
+	}
+
+	@Override
+	public int compareTo(Object arg0) {
+		return 0;
 	}
 
 }
